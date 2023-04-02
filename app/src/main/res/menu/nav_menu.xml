@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <item
+        android:id="@+id/homeFragment2"
+        android:icon="@drawable/home_ic"
+        android:title="@string/home"
+        android:checkable="true"
+        android:iconTint="@color/white"
+        app:showAsAction="withText"
+        android:enabled="true"
+        />
+
+
+    <item android:id="@+id/favouriteScreen"
+        android:icon="@drawable/fav_ic"
+        android:title="@string/favourite"
+        app:showAsAction="withText"
+        android:enabled="true"
+        />
+
+    <item android:id="@+id/alertFragment3"
+        android:icon="@drawable/alert_ic"
+        android:title="@string/alerts"
+        android:enabled="true"/>
+
+    <item android:id="@+id/settingFragment"
+        android:icon="@drawable/setting_ic"
+        android:title="@string/setting"
+        android:enabled="true"/>
+
+
+
+</menu>

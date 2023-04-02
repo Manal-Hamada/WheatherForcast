@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="35dp"
+    android:background="@color/white"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="15dp"
+        android:weightSum="2"
+        android:background="@color/white"
+      >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/from"
+                android:textStyle="bold"
+                android:textColor="@color/ic_color"
+                android:textSize="20sp" />
+            <EditText
+                android:id="@+id/edt_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="- -"
+                android:textSize="18dp"
+                android:focusable="false"
+                android:drawableEnd="@drawable/time_ic" />
+
+            <EditText
+                android:id="@+id/edt_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="- -"
+                android:textSize="18dp"
+                android:focusable="false"
+                android:drawableEnd="@drawable/calendar_today_ic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/to"
+                android:textStyle="bold"
+                android:textColor="@color/ic_color"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edt_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/time_ic"
+                android:focusable="false"
+                android:gravity="center"
+                android:hint="- -"
+
+                android:minHeight="48dp"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edt_end_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="- -"
+                android:textSize="18sp"
+                android:focusable="false"
+                android:drawableEnd="@drawable/calendar_today_ic" />
+        </LinearLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/radioGroupAlert"
+                    android:layout_width="290dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="15dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/appCompatRadioBtn_alarm"
+                        android:layout_width="117dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/alarm"
+                        android:textColor="@color/ic_color"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatRadioBtn_notification"
+                        app:layout_constraintVertical_bias="0.208" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/appCompatRadioBtn_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/notification"
+                        android:textColor="@color/ic_color"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </RadioGroup>
+
+
+                <Button
+                    android:id="@+id/btn_add_alert"
+                    android:layout_width="120dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bottom_sheet_btn"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/radioGroupAlert"
+                    app:layout_constraintStart_toEndOf="@+id/btn_cancle_alert"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupAlert" />
+
+                <Button
+                    android:id="@+id/btn_cancle_alert"
+                    android:layout_width="120dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bottom_sheet_btn"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroupAlert"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupAlert" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fav_bg"
+    >
+
+   <com.airbnb.lottie.LottieAnimationView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:lottie_autoPlay="true"
+       app:lottie_loop="true"
+       app:lottie_rawRes="@raw/loading3"
+       android:visibility="gone"
+       android:id="@+id/loading"/>
+
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/video_bg"/>
+
+    <TextView
+        android:id="@+id/country_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/country_name">
+
+        <TextView
+            android:id="@+id/today_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/menu_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/menu_bg"
+        android:src="@drawable/menu_ic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scroll_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            >
+
+
+            <TextView
+                android:id="@+id/degree_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/temp"
+                android:textColor="@color/white"
+                android:textSize="80sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/status_id"
+                android:layout_width="111dp"
+                android:layout_height="117dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="6dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/hourly_card"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_marginTop="120dp"
+                android:alpha="0.7"
+                app:cardCornerRadius="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/degree_tv">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hourly_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:alpha="0.7"
+                    android:background="@color/light_gray"
+                    tools:listitem="@layout/hour_item"
+                    tools:orientation="horizontal" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/days_list_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:alpha="0.7"
+                android:background="@color/light_gray"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/hourly_card"
+                app:layout_constraintStart_toStartOf="@+id/hourly_card"
+                app:layout_constraintTop_toBottomOf="@id/hourly_card">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/daily_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"
+                    tools:listitem="@layout/days_item"
+                    tools:orientation="vertical"
+
+                    />
+
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/current_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Clear sky"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/degree_tv" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_status_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:alpha="0.7"
+                android:visibility="gone"
+                android:background="@color/light_gray"
+                app:cardBackgroundColor="@color/light_gray"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="@id/days_list_card"
+                app:layout_constraintStart_toStartOf="@id/days_list_card"
+                app:layout_constraintTop_toBottomOf="@id/days_list_card">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ultra_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ultra_violet"
+                        app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                        app:layout_constraintStart_toStartOf="@+id/wind_img"
+                        app:layout_constraintTop_toBottomOf="@+id/wind_tv" />
+
+                    <ImageView
+                        android:id="@+id/tempr_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="156dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/temperature"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/wind_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/wind"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/cloud_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="68dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/cloudy_status"
+                        app:layout_constraintStart_toEndOf="@+id/tempr_img"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/wind_tv"
+                        android:layout_width="79dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="8dp"
+                        android:text="TextView"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/wind_img"
+                        app:layout_constraintTop_toBottomOf="@+id/wind_img" />
+
+                    <TextView
+                        android:id="@+id/tempr_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="TextView"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/tempr_img"
+                        app:layout_constraintStart_toStartOf="@+id/tempr_img"
+                        app:layout_constraintTop_toBottomOf="@+id/tempr_img" />
+
+                    <TextView
+                        android:id="@+id/cloud_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="TextView"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/cloud_img"
+                        app:layout_constraintStart_toStartOf="@+id/cloud_img"
+                        app:layout_constraintTop_toBottomOf="@+id/cloud_img" />
+
+                    <TextView
+                        android:id="@+id/ultra_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="TextView"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/ultra_img"
+                        app:layout_constraintStart_toStartOf="@+id/ultra_img"
+                        app:layout_constraintTop_toBottomOf="@+id/ultra_img" />
+
+                    <ImageView
+                        android:id="@+id/pressure_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/preassure2"
+                        app:layout_constraintEnd_toEndOf="@+id/tempr_tv"
+                        app:layout_constraintHorizontal_bias="0.518"
+                        app:layout_constraintStart_toStartOf="@+id/tempr_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/tempr_tv" />
+
+                    <ImageView
+                        android:id="@+id/visibility_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/eye"
+                        app:layout_constraintEnd_toEndOf="@+id/cloud_tv"
+                        app:layout_constraintHorizontal_bias="0.444"
+                        app:layout_constraintStart_toStartOf="@+id/cloud_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/cloud_tv" />
+
+                    <TextView
+                        android:id="@+id/pressure_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="TextView"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/pressure_img"
+                        app:layout_constraintHorizontal_bias="0.531"
+                        app:layout_constraintStart_toStartOf="@+id/pressure_img"
+                        app:layout_constraintTop_toBottomOf="@+id/pressure_img" />
+
+                    <TextView
+                        android:id="@+id/visibility_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="TextView"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/visibility_img"
+                        app:layout_constraintHorizontal_bias="0.437"
+                        app:layout_constraintStart_toStartOf="@+id/visibility_img"
+                        app:layout_constraintTop_toBottomOf="@+id/visibility_img" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

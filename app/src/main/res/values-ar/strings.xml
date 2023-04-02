@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">WheatherForcast</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="egyt">مصر </string>
+    <string name="Sunday">الاحد</string>
+    <string name="temp"></string>
+    <string name="to">الي</string>
+    <string name="alarm">منبه</string>
+    <string name="save">حفظ</string>
+    <string name="cancel">اغلاق</string>
+    <string name="from">من</string>
+    <string name="notification">اشعار</string>
+    <string name="home">الصفحه الرئيسيه</string>
+    <string name="delete">حذف</string>
+
+    <string name="header">Weather Forcast </string>
+    <string name="setting">اعدادات</string>
+    <string name="searchView">search for location</string>
+    <string name="celcsious">سيليزيوس</string>
+    <string name="fehrnehit">فهرنهايت</string>
+    <string name="kelvin">كلفن</string>
+    <string name="map">خريطه</string>
+    <string name="gps">نظام تحديد المواقع</string>
+    <string name="arabic">العربيه</string>
+    <string name="english">الانجليزيه</string>
+    <string name="disable">كتم</string>
+    <string name="enable">تفعيل</string>
+    <string name="meter_sec">متر/ثانيه</string>
+    <string name="mile_houre">ميل/الساعه</string>
+    <string name="meter">متر/ثانيه</string>
+    <string name="alerts">اخطارات</string>
+    <string name="favourite">المفضلات</string>
+    <string name="fav_dialoge_body">احفظ هذا الموقع الي مفضلاتك</string>
+    <string name="delete_dialoge_body">هل تريد حذف هذا العنصر من مفضلاتك</string>
+</resources>

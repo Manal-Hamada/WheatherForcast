@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_view"
+    app:startDestination="@id/homeFragment2">
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.wheatherforcast.home.view.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment2_to_alertFragment3"
+            app:destination="@id/alertFragment3" />
+        <action
+            android:id="@+id/action_homeFragment2_to_favouriteScreen"
+            app:destination="@id/favouriteScreen" />
+        <action
+            android:id="@+id/action_homeFragment2_self"
+            app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_homeFragment2_to_favouriteScreen2"
+            app:destination="@id/favouriteScreen" />
+        <action
+            android:id="@+id/action_homeFragment2_to_settingFragment"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_settingFragment2"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_favouriteScreen3"
+            app:destination="@id/favouriteScreen" />
+        <action
+            android:id="@+id/action_homeFragment2_to_settingFragment3"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alertFragment3"
+        android:name="com.example.wheatherforcast.alerts.view.AlertFragment"
+        android:label="fragment_alerts_screen"
+        tools:layout="@layout/fragment_alerts_screen" >
+        <action
+            android:id="@+id/action_alertFragment3_to_favouriteScreen"
+            app:destination="@id/favouriteScreen" />
+        <action
+            android:id="@+id/action_alertFragment3_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_alertFragment3_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteScreen"
+        android:name="com.example.wheatherforcast.favourites.view.FavouriteScreen"
+        android:label="fragment_favourite_screen"
+        tools:layout="@layout/fragment_favourite_screen" >
+        <action
+            android:id="@+id/action_favouriteScreen_to_alertFragment3"
+            app:destination="@id/alertFragment3" />
+        <action
+            android:id="@+id/action_favouriteScreen_to_settingFragment"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_favouriteScreen_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_favouriteScreen_to_homeFragment23"
+            app:destination="@id/homeFragment2" >
+            <argument
+                android:name="favLocation"
+                android:defaultValue="FavModel(&quot;&quot;,&quot;&quot;,&quot;&quot;)" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.wheatherforcast.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_settingFragment_to_alertFragment3"
+            app:destination="@id/alertFragment3" />
+        <action
+            android:id="@+id/action_settingFragment_to_favouriteScreen"
+            app:destination="@id/favouriteScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.wheatherforcast.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_favouriteScreen"
+            app:destination="@id/favouriteScreen" />
+    </fragment>
+</navigation>

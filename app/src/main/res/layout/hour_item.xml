@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="10dp"
+
+    >
+
+    <TextView
+        android:id="@+id/item_hour_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"
+        android:text="Now" />
+
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:textColor="@color/white"
+        android:id="@+id/hourly_list_img"
+        android:src="@drawable/sunny"
+        android:layout_marginBottom="8dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        />
+
+    <TextView
+        android:id="@+id/item_dgree_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25c"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/white" />
+
+
+
+
+
+</LinearLayout>
