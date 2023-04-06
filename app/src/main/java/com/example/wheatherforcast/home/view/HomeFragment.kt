@@ -7,33 +7,36 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheatherforcast.R
 import com.example.wheatherforcast.databinding.FragmentHomeBinding
-import com.example.wheatherforcast.favourites.model.FavModel
-import com.example.wheatherforcast.favourites.view.onFavouriteClickListener
-import com.example.wheatherforcast.network.ApiStatus
+import com.example.wheatherforcast.db.homedb.HomeLocalSource
+import com.example.wheatherforcast.db.homedb.RemoteSource
 import com.example.wheatherforcast.home.model.Repository
 import com.example.wheatherforcast.home.model.WeatherResponse
-import com.example.wheatherforcast.utils.*
 import com.example.wheatherforcast.home.viewmodel.HomeViewModel
 import com.example.wheatherforcast.home.viewmodel.ViewModelFactory
-import kotlinx.coroutines.delay
+import com.example.wheatherforcast.network.ApiStatus
+import com.example.wheatherforcast.utils.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
 
 
-class HomeFragment : Fragment(), onFavouriteClickListener {
+class HomeFragment : Fragment() {
 
     //private val args by navArgs<HomeFragmentArgs>()
 
@@ -54,17 +57,21 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-         getSharedPrefrencesValue()
-
+        sharedPreference =
+            requireContext().getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+        LanguageConverter.checkLanguage(
+            sharedPreference.getString(Constants.language, "")!!,
+            requireContext()
+        )
+        getSharedPrefrencesValue()
     }
 
     fun getSharedPrefrencesValue() {
-        sharedPreference =
-            requireContext().getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-        lat = sharedPreference.getString("latitude", "")
-        lon = sharedPreference.getString("longitude", "")
-        city = sharedPreference.getString("countryName", "defaultName")
-        currentLanguage = sharedPreference.getString("language", "")
+
+        lat = sharedPreference.getString(Constants.latitude, "33.44")
+        lon = sharedPreference.getString(Constants.longitude, "-94")
+        city = sharedPreference.getString(Constants.cityName, "")
+        currentLanguage = sharedPreference.getString(Constants.language, "")
         units = sharedPreference.getString("units", "")
         Log.i("cityy", city.toString())
     }
@@ -83,9 +90,10 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        LanguageConverter.checkLanguage(currentLanguage!!, requireContext())
+        //Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment2_self)
         getSharedPrefrencesValue()
-        LanguageConverter.checkLanguage(currentLanguage, requireContext())
-         setViewModel()
+        setViewModel()
         getData()
 
         // setMenuItemAction(view)
@@ -93,14 +101,16 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
 
     fun setViewModel() {
         if (Constants.favModel == true) {
-            lat = Constants.latitude
-            lon = Constants.longitude
+            lat = Constants.model.latitude
+            lon = Constants.model.longitude
             city = Constants.model.cityName
+            Log.i(" fav city", city.toString())
             Constants.favModel = false
         }
 
         factory = ViewModelFactory(
-            Repository.getInstance(), this.requireContext(),
+            Repository.getInstance(HomeLocalSource(requireContext()), RemoteSource()),
+            this.requireContext(),
             lat,
             lon,
             currentLanguage,
@@ -136,28 +146,38 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getData() {
         lifecycleScope.launch {
+            if (NetworkConnection.isOnline(requireContext()) == true) {
+                viewModel.getWeatherResponse(lat, lon, currentLanguage, units)
+            } else
+                viewModel.getSavedWeather()
+
             viewModel.statList.collectLatest {
                 when (it) {
                     is ApiStatus.Success -> {
+                        binding.dailyStatusCard.visibility = View.VISIBLE
                         binding.loading.visibility = View.GONE
-                        binding.dailyStatusCard.visibility=View.VISIBLE
                         binding.videoBg.setZOrderOnTop(false)
-                        setDailyRecycler(it)
-                        setHourlyRecycler(it)
+                        setDailyRecycler(it.weatherResponse)
+                        setHourlyRecycler(it.weatherResponse)
                         setHomeData(it.weatherResponse)
+                        Constants.response = it.weatherResponse
                     }
                     is ApiStatus.Loading -> {
                         binding.loading.visibility = View.VISIBLE
                     }
                     else -> {
-
+                        Toast.makeText(
+                            requireContext(),
+                            "There is a proplem in Api",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     }
                 }
-
             }
-        }
 
+
+        }
     }
 
 
@@ -165,40 +185,36 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
     override fun onResume() {
         super.onResume()
         setBackgroundVideo()
-        getSharedPrefrencesValue()
-        setViewModel()
-        Log.i("on Resume", currentLanguage.toString())
-        getData()
+        LanguageConverter.checkLanguage(currentLanguage!!, requireContext())
+
     }
-
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setHomeData(it: WeatherResponse) {
-        binding.degreeTv.text = it.current.temp.toString()
-        Icons.getSuitableIcon(it!!.daily[0].weather[0].icon, binding.statusId)
-        binding.currentStatus.text = it.daily[0].weather[0].description
-        binding.degreeTv.text =
-            ConvertUnits.convertTemp(it!!.daily[0].temp.day, tempUnit = tempUnit)
-        binding.pressureTv.text = it.current.pressure.toString()
-        binding.windTv.text = it.current.wind_deg.toString()
-        binding.temprTv.text = it.current.temp.toString()
-        binding.cloudTv.text = it.current.clouds.toString()
-        binding.ultraTv.text = it.current.uvi.toString()
+        LanguageConverter.checkLanguage(currentLanguage, requireContext())
+        binding.degreeTv.text = ConvertUnits.convertTemp(it!!.daily!![0].temp.day, units!!)
+        Icons.getSuitableIcon(it!!.daily!![0].weather[0].icon, binding.statusId)
+        binding.currentStatus.text = it.daily!![0].weather[0].description
+        //  ConvertUnits.convertTemp(it!!.daily!![0].temp.day, tempUnit = tempUnit)
+        binding.pressureTv.text = it.current?.pressure.toString()
+        binding.windTv.text = it.current?.wind_deg.toString()
+        binding.temprTv.text = it.current?.temp.toString()
+        binding.cloudTv.text = it.current?.clouds.toString()
+        binding.ultraTv.text = it.current?.uvi.toString()
         Icons.getSuitableIcon(
-            it.current.weather[0].icon,
+            it.current!!.weather[0].icon,
             binding.statusId
         )
         binding.visibilityTv.text = it.current.visibility.toString()
-        binding.countryName.text = city
-        binding.timeTv.text = TimeConverter.getCurrentTime(it!!.hourly[0].dt, it!!.timezone)
-        binding.todayId.text = DayFormatter.getDay(it!!.daily[0].dt)
+        binding.countryName.text = CityName.getCityName(it.lat,it.lon,requireContext())
+        binding.timeTv.text = TimeConverter.getCurrentTime(it!!.hourly!![0].dt, it!!.timezone)
+        binding.todayId.text = DayFormatter.getDay(it!!.daily!![0].dt)
 
     }
 
 
-    fun setDailyRecycler(it: ApiStatus.Success) {
-        dayAdapter = DailyAdapter(it.weatherResponse, tempUnit)
+    fun setDailyRecycler(it: WeatherResponse) {
+        dayAdapter = DailyAdapter(it, units!!)
         binding.dailyList?.apply {
             adapter = dayAdapter
             layoutManager = LinearLayoutManager(this.context).apply {
@@ -208,8 +224,8 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
         }
     }
 
-    fun setHourlyRecycler(it: ApiStatus.Success) {
-        hourAdapter = HourAdapter(it.weatherResponse, tempUnit)
+    fun setHourlyRecycler(it: WeatherResponse) {
+        hourAdapter = HourAdapter(it, units!!)
         binding.hourlyList?.apply {
             adapter = hourAdapter
             layoutManager = LinearLayoutManager(this.context).apply {
@@ -217,14 +233,6 @@ class HomeFragment : Fragment(), onFavouriteClickListener {
 
             }
         }
-    }
-
-    override fun goToLcation(favLocation: FavModel) {
-        println("From Home ")
-    }
-
-    override fun deletelocation(favLocation: FavModel) {
-        TODO("Not yet implemented")
     }
 
 

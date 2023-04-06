@@ -1,52 +1,50 @@
 package com.example.wheatherforcast.favourites.viewmodel
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wheatherforcast.favourites.model.FavModel
 import com.example.wheatherforcast.favourites.model.FavouriteRepository
+import com.example.wheatherforcast.favourites.view.FavouriteInterface
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class FavouriteViewModel constructor(var repo: FavouriteRepository?, var _context: Context) : ViewModel() {
+class FavouriteViewModel (var repo: FavouriteInterface?) : ViewModel() {
 
-    private var _mutableList = MutableLiveData<List<FavModel>>()
-    var statList = _mutableList
+      var _mutableList : Flow<List<FavModel>?>?=null
 
     init {
-        // getFavLocation(_context)
+        _mutableList=getFavLocation()
     }
 
-    suspend fun getFavLocation(context: Context): Flow<List<FavModel>?>? {
-
-        /* var job = viewModelScope.launch(Dispatchers.IO) {
-            repo!!.getDao(context)?.getAllFavourites()
-                ?.collect { list ->
-                    _mutableList.value = list
-                }
-
-        }*/
+     fun getFavLocation(): Flow<List<FavModel>?>? {
         var list: Flow<List<FavModel>?>? = null
         var job = viewModelScope.launch(Dispatchers.IO) {
-            list = repo!!.getDao(context)?.getAllFavourites()
+            list=repo?.getAllFavs()
+            _mutableList=list
+
         }
-        job.join()
-        return list
+      // job.join()
+
+      return list
     }
 
-    suspend fun insertnewFavourite(favLocation: FavModel, context: Context) {
+    fun insertnewFavourite(favLocation: FavModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo?.getDao(context)?.insertLocation(favLocation)
+            repo?.insert(favLocation)
         }
 
     }
 
-    suspend fun deleteLocation(favLocation: FavModel, context: Context) {
+     suspend fun deleteLocation(favLocation: FavModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo?.delete(favLocation, context)
+            //repo?.delete(favLocation, context)
+            repo?.delete(favLocation)
         }
-        getFavLocation(context)
+        getFavLocation()
     }
 }

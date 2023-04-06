@@ -37,14 +37,14 @@ class HourAdapter(var weatherResponse: WeatherResponse, var tempUnit: String) :
 
         if (weatherResponse != null) {
             Icons.getSuitableIcon(
-                weatherResponse!!.hourly[position].weather[0].icon,
+                weatherResponse!!.hourly!![position].weather[0].icon,
                 holder.binding.hourlyListImg
             )
             holder.binding.itemDgreeTv.text = ConvertUnits.convertTemp(
-                weatherResponse!!.hourly[position].temp,
+                weatherResponse!!.hourly!![position].temp,
                 tempUnit = tempUnit
             )
-            holder.binding.itemHourTv.text= TimeConverter.getCurrentTime(weatherResponse!!.hourly[position].dt, weatherResponse!!.timezone)
+            holder.binding.itemHourTv.text= TimeConverter.getCurrentTime(weatherResponse!!.hourly!![position].dt, weatherResponse!!.timezone)
 
         }
 

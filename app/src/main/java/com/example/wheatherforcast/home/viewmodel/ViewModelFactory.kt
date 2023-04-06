@@ -16,7 +16,7 @@ class ViewModelFactory(
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            HomeViewModel(_repo, context, lat, lon, lang,units) as T
+            HomeViewModel(_repo) as T
         } else {
             throw java.lang.IllegalArgumentException("view model class not founded")
         }

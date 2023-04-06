@@ -13,6 +13,8 @@
     <string name="notification">اشعار</string>
     <string name="home">الصفحه الرئيسيه</string>
     <string name="delete">حذف</string>
+    <string name="Warning">تنبيه</string>
+    <string name="Ok">موافق</string>
 
     <string name="header">Weather Forcast </string>
     <string name="setting">اعدادات</string>
@@ -33,4 +35,14 @@
     <string name="favourite">المفضلات</string>
     <string name="fav_dialoge_body">احفظ هذا الموقع الي مفضلاتك</string>
     <string name="delete_dialoge_body">هل تريد حذف هذا العنصر من مفضلاتك</string>
+    <string name="Permission_Required">الإذن مطلوب</string>
+    <string name="save_location">الحفظ كموقعك الحالي</string>
+    <string name="windSpeed" />
+    <string name="tempdgree" />
+    <string name="cloudtv" />
+    <string name="ultratv" />
+    <string name="pressuretv" />
+    <string name="visibilitytv" />
+    <string name="countryname" />
+
 </resources>

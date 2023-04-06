@@ -1,4 +1,4 @@
-package com.example.wheatherforcast.db
+package com.example.wheatherforcast.db.favouritedb
 
 import androidx.room.*
 import com.example.wheatherforcast.favourites.model.FavModel

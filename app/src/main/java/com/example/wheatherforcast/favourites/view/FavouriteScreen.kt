@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
@@ -17,12 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheatherforcast.R
 import com.example.wheatherforcast.databinding.FragmentFavouriteScreenBinding
+import com.example.wheatherforcast.db.favouritedb.FavLocalSource
 import com.example.wheatherforcast.favourites.model.FavModel
 import com.example.wheatherforcast.favourites.model.FavouriteRepository
 import com.example.wheatherforcast.favourites.viewmodel.FavouriteViewModel
 import com.example.wheatherforcast.favourites.viewmodel.FavouriteViewModelfactory
 import com.example.wheatherforcast.utils.AppDialogs
 import com.example.wheatherforcast.utils.Constants
+import com.example.wheatherforcast.utils.NetworkConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,9 +38,6 @@ class FavouriteScreen : Fragment(), onFavouriteClickListener {
     lateinit var favAdapter: FavouriteAdapter
     lateinit var dialog: Dialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +52,7 @@ class FavouriteScreen : Fragment(), onFavouriteClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         factory = FavouriteViewModelfactory(
-            FavouriteRepository.getInstance(), requireContext()
+            FavouriteRepository.getInstance(FavLocalSource(requireContext())), requireContext()
         )
         viewModel = ViewModelProvider(this, factory)[FavouriteViewModel::class.java]
 
@@ -63,14 +63,21 @@ class FavouriteScreen : Fragment(), onFavouriteClickListener {
 
     fun setaddFavBtn(view: View) {
         binding.addFavFab.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_favouriteScreen_to_mapFragment)
+            if (NetworkConnection.isOnline(requireContext())==true) {
+                Constants.fromfav=true
+                Navigation.findNavController(view)
+                    .navigate(R.id.action_favouriteScreen_to_mapFragment)
+            }
+            else{
+                Toast.makeText(requireContext(),"You have to connect network",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun getData() {
         favAdapter = FavouriteAdapter(this, requireContext())
         lifecycleScope.launch() {
-            var list = viewModel.getFavLocation(requireContext())?.collect {
+            var list = viewModel._mutableList?.collect {
 
                 binding.favList?.apply {
                     adapter = favAdapter
@@ -82,7 +89,7 @@ class FavouriteScreen : Fragment(), onFavouriteClickListener {
                             Log.i("Submit", it.size.toString())
                         } else {
                             binding.favList.visibility = View.GONE
-                            binding.favEmptyImg.visibility=View.VISIBLE
+                            binding.favEmptyImg.visibility = View.VISIBLE
                         }
 
                     }
@@ -99,12 +106,16 @@ class FavouriteScreen : Fragment(), onFavouriteClickListener {
         Constants.model = favLocation
         val action: NavDirections =
             FavouriteScreenDirections.actionFavouriteScreenToHomeFragment23()
+        if (NetworkConnection.isOnline(requireContext())==true){
         Navigation.findNavController(requireView())
-            .navigate(action)
+            .navigate(action)}
+        else
+            Toast.makeText(requireContext(),"You have to connect network",Toast.LENGTH_SHORT).show()
+
     }
 
     override fun deletelocation(favLocation: FavModel) {
-         setDeleteConfirmationDialog(favLocation)
+        setDeleteConfirmationDialog(favLocation)
     }
 
     fun setDeleteConfirmationDialog(favLocation: FavModel) {
@@ -119,7 +130,7 @@ class FavouriteScreen : Fragment(), onFavouriteClickListener {
 
         deleteBtn.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.deleteLocation(favLocation, requireContext())
+                viewModel.deleteLocation(favLocation)
 
 
             }

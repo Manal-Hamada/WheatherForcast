@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_alertFragment3_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_alertFragment3_self"
+            app:destination="@id/alertFragment3" />
     </fragment>
     <fragment
         android:id="@+id/favouriteScreen"
@@ -69,6 +72,9 @@
                 android:name="favLocation"
                 android:defaultValue="FavModel(&quot;&quot;,&quot;&quot;,&quot;&quot;)" />
         </action>
+        <action
+            android:id="@+id/action_favouriteScreen_self"
+            app:destination="@id/favouriteScreen" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -84,6 +90,12 @@
         <action
             android:id="@+id/action_settingFragment_to_favouriteScreen"
             app:destination="@id/favouriteScreen" />
+        <action
+            android:id="@+id/action_settingFragment_self"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -93,5 +105,11 @@
         <action
             android:id="@+id/action_mapFragment_to_favouriteScreen"
             app:destination="@id/favouriteScreen" />
+        <action
+            android:id="@+id/action_mapFragment_self"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
 </navigation>

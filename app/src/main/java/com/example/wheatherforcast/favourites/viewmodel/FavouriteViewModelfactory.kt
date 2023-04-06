@@ -11,7 +11,7 @@ class FavouriteViewModelfactory(private val _repo: FavouriteRepository?, var con
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(FavouriteViewModel::class.java)) {
-           FavouriteViewModel(_repo, context) as T
+           FavouriteViewModel(_repo) as T
         } else {
             throw java.lang.IllegalArgumentException("view model class not founded")
         }

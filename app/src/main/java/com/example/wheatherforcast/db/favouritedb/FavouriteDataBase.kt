@@ -1,4 +1,4 @@
-package com.example.wheatherforcast.db
+package com.example.wheatherforcast.db.favouritedb
 
 import android.content.Context
 import androidx.room.Database

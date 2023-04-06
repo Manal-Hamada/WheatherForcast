@@ -1,3 +1,14 @@
 package com.example.wheatherforcast.alerts.model
 
-data class AlertModel (var year:Int, var month:Int, var day:Int, var hour:Int, var minute:Int)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "alerts")
+data class AlertModel (
+    @PrimaryKey var id:String,
+    var timeStart:String,
+    val timeEnd:String,
+    val dateStart:String,
+    val dateEnd:String) {
+}
+

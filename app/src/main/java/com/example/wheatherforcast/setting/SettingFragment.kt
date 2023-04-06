@@ -1,15 +1,25 @@
 package com.example.wheatherforcast.setting
 
+import android.annotation.SuppressLint
+import android.app.AppOpsManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import com.airbnb.lottie.utils.Utils
+import com.example.wheatherforcast.R
 import com.example.wheatherforcast.databinding.FragmentSettingBinding
 import com.example.wheatherforcast.utils.Constants
-import com.example.wheatherforcast.utils.LanguageConverter
+import com.example.wheatherforcast.utils.NetworkConnection
+import java.lang.reflect.Field
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
 
 
 class SettingFragment : Fragment() {
@@ -23,6 +33,7 @@ class SettingFragment : Fragment() {
         sharedPrefrences =
             requireActivity().getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         editor = sharedPrefrences.edit()
+       // LanguageConverter.checkLanguage(sharedPrefrences.getString(Constants.language,"")!!,requireContext())
 
     }
 
@@ -45,6 +56,7 @@ class SettingFragment : Fragment() {
         getCheckedBtns()
         checkLanguage()
         checkLocationWay()
+        checkMapBtn()
         checkSpeedUnit()
         checkTempUnit()
         checkNotificationStatus()
@@ -53,18 +65,33 @@ class SettingFragment : Fragment() {
     fun checkLanguage() {
         binding.langRadBtn.setOnCheckedChangeListener { group, checkedId ->
             val language = if (binding.arabicBtn.id == checkedId) "ar" else "en"
-            Constants.language = language
-           // LanguageConverter.checkLanguage(language,requireContext())
-            editor.putString("language", language)
-            editor.putInt("checkedLang", binding.langRadBtn.checkedRadioButtonId)
-            editor.apply()
+            editor.putString(Constants.language, language)
+            editor.putInt(Constants.checkedLang, binding.langRadBtn.checkedRadioButtonId)
+            editor.commit()
+          //  Navigation.findNavController(requireView()).navigate(R.id.action_settingFragment_self)
+            requireActivity().finish()
+            requireActivity().overridePendingTransition(0, 0)
+            startActivity(requireActivity().intent)
+            requireActivity().overridePendingTransition(0, 0)
+
         }
-        LanguageConverter.checkLanguage(Constants.language,requireContext())
+
     }
 
+  fun checkMapBtn(){
+      binding.mapRadBtn.setOnClickListener {
+          if(NetworkConnection.isOnline(requireContext())==true) {
+              Navigation.findNavController(requireView()).navigate(R.id.action_settingFragment_to_mapFragment)
+              Constants.mapChange=true
+          }
+          else
+              Toast.makeText(requireContext(),"connect network ",Toast.LENGTH_SHORT).show()
+      }
+  }
 
     fun checkLocationWay() {
         binding.locationRadG.setOnCheckedChangeListener { group, checkedId ->
+
             editor.putInt("checkedLocation", binding.locationRadG.checkedRadioButtonId)
             editor.commit()
         }
@@ -91,15 +118,15 @@ class SettingFragment : Fragment() {
         binding.tempRadG.setOnCheckedChangeListener { group, checkedId ->
             if (binding.celcsious.id == checkedId) {
                 units = "metric"
-                binding.speedRadG.check(binding.celcsious.id)
+                binding.speedRadG.check(binding.mSRbtn.id)
 
             } else if (binding.fehrn.id == checkedId) {
                 units = "imperial"
-                binding.speedRadG.check(binding.fehrn.id)
+                binding.speedRadG.check(binding.hourBtn.id)
 
             } else {
                 units = "standard"
-                binding.speedRadG.check(binding.kelvin.id)
+                binding.speedRadG.check(binding.mSRbtn.id)
             }
             editor.putInt("checkedTempUnit", binding.tempRadG.checkedRadioButtonId)
             editor.putString("units", units)
@@ -118,13 +145,14 @@ class SettingFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getCheckedBtns()
+
     }
 
 
     fun getCheckedBtns() {
         binding.langRadBtn.check(
             sharedPrefrences.getInt(
-                "checkedLang",
+                Constants.checkedLang,
                 binding.langRadBtn.checkedRadioButtonId
             )
         )
@@ -148,9 +176,52 @@ class SettingFragment : Fragment() {
         )
         binding.tempRadG.check(
             sharedPrefrences.getInt(
-                "checkedTempUnit",
+                Constants.checkedTempUnit,
                 binding.tempRadG.checkedRadioButtonId
             )
         )
     }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+   /* @SuppressLint("RestrictedApi")
+    private fun isNotificationEnabled(mContext: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val mAppOps = mContext.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val appInfo = mContext.applicationInfo
+            val pkg = mContext.applicationContext.packageName
+            val uid = appInfo.uid
+            val appOpsClass: Class<*>
+            try {
+                appOpsClass = Class.forName(AppOpsManager::class.java.name)
+                val checkOpNoThrowMethod: Method = appOpsClass.getMethod(
+                    "checkOpNoThrow", Integer.TYPE, Integer.TYPE,
+                    String::class.java
+                )
+                val opPostNotificationValue: Field =
+                    appOpsClass.getDeclaredField("OP_POST_NOTIFICATION")
+                val value = opPostNotificationValue.get(Int::class.java) as Int
+                return checkOpNoThrowMethod.invoke(
+                    mAppOps, value, uid,
+                    pkg
+                ) as Int == AppOpsManager.MODE_ALLOWED
+            } catch (ex: Exception) {
+                Utils.isNetworkException(ex)
+            } catch (ex: NoSuchMethodException) {
+                Utils.isNetworkException(ex)
+            } catch (ex: NoSuchFieldException) {
+                Utils.isNetworkException(ex)
+            } catch (ex: InvocationTargetException) {
+                Utils.isNetworkException(ex)
+            } catch (ex: IllegalAccessException) {
+                Utils.isNetworkException(ex)
+            }
+            false
+        } else {
+            false
+        }
+    }*/
 }

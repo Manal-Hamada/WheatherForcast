@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/fav_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".alerts.view.AlertFragment">
 
@@ -45,6 +45,14 @@
             app:layout_constraintStart_toStartOf="@+id/cons_layout"
             app:layout_constraintTop_toTopOf="@+id/cons_layout"
             />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/alerts_list"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/no_alerts_img" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

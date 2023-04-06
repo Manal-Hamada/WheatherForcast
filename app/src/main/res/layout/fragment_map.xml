@@ -12,19 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-    <androidx.appcompat.widget.SearchView
+
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:id="@+id/search"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:iconifiedByDefault="false"
-        app:queryHint="@string/searchView"
-        android:focusable="false"
-        app:closeIcon="@drawable/close_ic"
-        app:searchIcon="@drawable/search_location_ic"
-        android:background="@drawable/map_ed_boeder"/>
+        android:paddingStart="3dp"
+        android:drawableLeft="@drawable/search_location_ic"
+        android:background="@drawable/map_ed_boeder"
+        android:imeOptions="actionSend"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

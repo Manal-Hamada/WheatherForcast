@@ -1,39 +1,38 @@
 package com.example.wheatherforcast.favourites.model
 
-import android.content.Context
-import com.example.wheatherforcast.db.FavouriteDao
-import com.example.wheatherforcast.db.FavouriteDataBase
+import com.example.wheatherforcast.db.favouritedb.FavLocalSource
 import com.example.wheatherforcast.favourites.view.FavouriteInterface
+import kotlinx.coroutines.flow.Flow
 
 
-class FavouriteRepository : FavouriteInterface {
+open class FavouriteRepository(var localSource: FavLocalSource) : FavouriteInterface {
 
 
     companion object {
         @Volatile
         private var repo: FavouriteRepository? = null
-        fun getInstance(): FavouriteRepository? {
+        fun getInstance(localSource: FavLocalSource): FavouriteRepository? {
             return repo ?: synchronized(this) {
-                val temp = FavouriteRepository()
+                val temp = FavouriteRepository(localSource)
                 repo = temp
                 temp
             }
         }
     }
 
-    fun getDao(context:Context): FavouriteDao? {
-        val dao:  FavouriteDao? by lazy {
-            FavouriteDataBase.getInstance(context)?.favouriteDao()
-        }
-        return dao
+
+
+    override suspend fun insert(favLocation: FavModel) {
+      localSource.insertToFav(favLocation)
+
     }
 
-    override suspend fun insert(favLocation: FavModel, context: Context) {
-      getDao(context)?.insertLocation (favLocation)
+    override suspend fun delete(favLocation: FavModel) {
+        localSource.deleteFav(favLocation)
     }
 
-    override suspend fun delete(favLocation: FavModel, context: Context) {
-        getDao(context)?.deleteLocation (favLocation)
+    override suspend fun getAllFavs():Flow<List<FavModel>?>? {
+        return localSource.getAllFavs()
     }
 
 

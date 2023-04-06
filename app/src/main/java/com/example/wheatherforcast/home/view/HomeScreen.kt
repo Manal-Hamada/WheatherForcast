@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -13,7 +14,9 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.wheatherforcast.R
 import com.example.wheatherforcast.databinding.ActivityHomeScreenBinding
+import com.example.wheatherforcast.utils.Constants
 import com.example.wheatherforcast.utils.CurrentLocation
+import com.example.wheatherforcast.utils.LanguageConverter
 import com.google.android.gms.location.LocationServices
 
 
@@ -35,20 +38,14 @@ class HomeScreen : AppCompatActivity() {
             this.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         editor = sharedPrefrences.edit()
 
-      //  LanguageConverter.checkLanguage(sharedPrefrences.getString("language", ""), this)
-        sharedPrefrences = getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-
-
+        LanguageConverter.checkLanguage(sharedPrefrences.getString(Constants.language,"")!!,applicationContext)
         LocationServices.getFusedLocationProviderClient(this)
-        // getLastLocation()
-        CurrentLocation(applicationContext, this, "en").getLastLocation()
+        CurrentLocation(applicationContext, this, Constants.language).getLastLocation()
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(binding.navView, navController)
         binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
-        //  displayMenu()
-        // onItemSelected()
     }
 
     fun displayMenu() {

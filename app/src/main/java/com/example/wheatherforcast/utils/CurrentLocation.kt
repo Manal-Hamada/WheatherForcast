@@ -25,7 +25,6 @@ const val My_LOCATION_PERMISSION_ID = 19
 class CurrentLocation(
     val context: Context,
     val activity: Activity,
-    //val currentLocationStatue: CurrentLocationStatue,
     val language: String
 ) {
     var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
@@ -82,21 +81,23 @@ class CurrentLocation(
     val mlocationCallBack: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {
             super.onLocationResult(p0)
-            Log.i("TAG", "adress")
             val mLastLocation: Location? = p0.lastLocation
+            LanguageConverter.checkLanguage(language,context)
             gucoder = Geocoder(context)
             val adress =
-                gucoder.getFromLocation(mLastLocation?.latitude!!, mLastLocation?.latitude!!, 1)
+                gucoder.getFromLocation(mLastLocation?.latitude!!, mLastLocation?.longitude!!, 1)
             if (adress?.size != 0) {
                 if (adress != null) {
-                    Log.i("Name", adress.get(0).latitude.toString())
+                    Log.i("Name", adress.get(0).adminArea.toString())
                     sharedPreference =
                         context.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
                     editor = sharedPreference.edit()
-                    editor.putString("countryName", adress.get(0).adminArea)
-                    editor.putString("latitude", adress.get(0).latitude.toString())
-                    editor.putString("longitude", adress.get(0).longitude.toString())
+                    LanguageConverter.checkLanguage(sharedPreference.getString(Constants.language,""),context)
+                    editor.putString(Constants.cityName, adress.get(0).adminArea)
+                    editor.putString(Constants.latitude, adress.get(0).latitude.toString())
+                    editor.putString(Constants.longitude, adress.get(0).longitude.toString())
                     editor.commit()
+                    Log.i("long lat",adress.get(0).latitude.toString()+"//"+ adress.get(0).longitude.toString())
                 }
             } else {
                 Log.i("TAGGG", "adress")

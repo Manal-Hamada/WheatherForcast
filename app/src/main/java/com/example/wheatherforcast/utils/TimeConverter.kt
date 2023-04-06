@@ -15,7 +15,7 @@ class TimeConverter {
 
             val zoneId = ZoneId.of(timezone)
             val instant = Instant.ofEpochSecond(dt.toLong())
-            val formatter = DateTimeFormatter.ofPattern(format, Locale.ENGLISH)
+            val formatter = DateTimeFormatter.ofPattern(format, Locale.getDefault())
             return instant.atZone(zoneId).format(formatter)
         }
     }

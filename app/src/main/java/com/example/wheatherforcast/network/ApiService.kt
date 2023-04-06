@@ -12,9 +12,9 @@ interface ApiService {
   @GET("onecall")
   suspend fun getResponse(@Query("lat") lat: String?  ,
                           @Query("lon") lon: String? ,
-                          @Query("lang") lang: String? ,
+                          @Query("lang") lang: String?="en" ,
                           @Query("exclude") exclude: String?="minutely",
-                          @Query("units") units: String?,
+                          @Query("units") units: String?="metric",
                           @Query("appid") appid: String?=Constants.API_KEY): WeatherResponse
 
 }

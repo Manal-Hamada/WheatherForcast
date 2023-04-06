@@ -108,12 +108,13 @@
                     android:layout_height="52dp"
                     android:layout_marginStart="15dp"
                     android:orientation="horizontal"
+                    android:checkedButton="@id/Btn_alarm"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/appCompatRadioBtn_alarm"
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/Btn_alarm"
                         android:layout_width="117dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
@@ -127,8 +128,8 @@
                         app:layout_constraintTop_toBottomOf="@+id/appCompatRadioBtn_notification"
                         app:layout_constraintVertical_bias="0.208" />
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/appCompatRadioBtn_notification"
+                    <RadioButton
+                        android:id="@+id/Btn_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/notification"

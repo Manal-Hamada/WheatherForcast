@@ -1,10 +1,15 @@
 package com.example.wheatherforcast.home.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "home")
     data class WeatherResponse(
-        val alerts: List<Alert>,
-        val current: Current,
-        val daily: List<Daily>,
-        val hourly: List<Hourly>,
+        val alerts: List<Alert?>?,
+        val current: Current?,
+        val daily: List<Daily>?,
+        val hourly: List<Hourly>?,
+        @PrimaryKey
         val lat: Double,
         val lon: Double,
         val timezone: String,

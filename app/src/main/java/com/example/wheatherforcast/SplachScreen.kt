@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.example.wheatherforcast.home.view.HomeScreen
+import com.example.wheatherforcast.utils.Constants
+import com.example.wheatherforcast.utils.LanguageConverter
 
 class SplachScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,6 +16,7 @@ class SplachScreen : AppCompatActivity() {
 
         // Handler().postDelayed({
         Handler(Looper.getMainLooper()).postDelayed({
+           // LanguageConverter.checkLanguage(Constants.language,applicationContext)
             val intent = Intent(this, HomeScreen::class.java)
             startActivity(intent)
             finish()

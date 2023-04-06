@@ -30,13 +30,13 @@ class DailyAdapter (var weatherResponse: WeatherResponse, var tempUnit:String): 
     override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
 
         if (weatherResponse !=null){
-            holder.binding.dayItemStatus.text=weatherResponse!!.daily[position].weather[0].description
+            holder.binding.dayItemStatus.text=weatherResponse!!.daily!![position].weather[0].description
             Icons.getSuitableIcon(
-                weatherResponse!!.daily[position].weather[0].icon,
+                weatherResponse!!.daily!![position].weather[0].icon,
                 holder.binding.imageView
             )
-            holder.binding.dayItemTv.text = DayFormatter.getDay(weatherResponse!!.daily[position].dt)
-            holder.binding.dayItemDgree.text = ConvertUnits.convertTemp(weatherResponse!!.daily[position].temp.day, tempUnit = tempUnit)
+            holder.binding.dayItemTv.text = DayFormatter.getDay(weatherResponse!!.daily!![position].dt)
+            holder.binding.dayItemDgree.text = ConvertUnits.convertTemp(weatherResponse!!.daily!![position].temp.day, tempUnit = tempUnit)
 
         }
 

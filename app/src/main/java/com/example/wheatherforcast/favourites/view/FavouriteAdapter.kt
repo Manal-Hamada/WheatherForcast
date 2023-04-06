@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheatherforcast.databinding.FavListItemBinding
 import com.example.wheatherforcast.favourites.model.FavModel
 
-class FavouriteAdapter(var onFavClickListener: onFavouriteClickListener,var c: Context):
-    androidx.recyclerview.widget.ListAdapter<FavModel,FavouriteAdapter.FavouriteViewHolder>(
+class FavouriteAdapter(var onFavClickListener: onFavouriteClickListener, var c: Context):
+    androidx.recyclerview.widget.ListAdapter<FavModel, FavouriteAdapter.FavouriteViewHolder>(
     FavDiffUtills() ){
 
 
